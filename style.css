@@ -256,7 +256,15 @@ button {
 }
 
 .hero-content {
+    align-items: center;
+    display: grid;
+    gap: clamp(45px, 7vw, 90px);
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 330px);
     max-width: var(--maximum-width);
+}
+
+.hero-copy {
+    min-width: 0;
 }
 
 .introduction {
@@ -282,6 +290,170 @@ button {
     color: var(--muted-text);
     font-size: 1.05rem;
     max-width: 650px;
+}
+
+.id-card-stage {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: 480px;
+    perspective: 1000px;
+    position: relative;
+}
+
+.id-card-stage::before {
+    background-color: var(--accent-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    content: "";
+    height: 360px;
+    position: absolute;
+    width: 360px;
+}
+
+.floating-id {
+    animation: id-card-bounce 3.8s ease-in-out infinite;
+    filter: drop-shadow(0 24px 25px rgba(0, 0, 0, 0.35));
+    padding-top: 82px;
+    position: relative;
+    width: min(100%, 310px);
+}
+
+.id-lanyard {
+    border-left: 5px solid var(--primary-color);
+    border-radius: 30px 30px 0 0;
+    border-right: 5px solid var(--primary-dark);
+    height: 105px;
+    left: 50%;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 92px;
+}
+
+.developer-id {
+    background:
+        linear-gradient(145deg, var(--accent-surface), transparent 42%),
+        var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    overflow: hidden;
+    padding: 28px 24px 22px;
+    position: relative;
+    text-align: center;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.developer-id:hover {
+    border-color: var(--primary-color);
+    transform: rotate(-2deg) scale(1.02);
+}
+
+.id-clip {
+    background-color: var(--background);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    height: 14px;
+    left: 50%;
+    position: absolute;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 58px;
+}
+
+.id-card-header {
+    align-items: center;
+    display: flex;
+    font-size: 0.72rem;
+    font-weight: 700;
+    justify-content: space-between;
+    letter-spacing: 0.09em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.id-card-header > span:first-child {
+    color: var(--primary-color);
+}
+
+.id-status {
+    align-items: center;
+    color: var(--muted-text);
+    display: flex;
+    gap: 5px;
+    letter-spacing: 0.04em;
+}
+
+.id-status > span {
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--primary-color);
+    height: 7px;
+    width: 7px;
+}
+
+.id-photo {
+    aspect-ratio: 1;
+    border: 4px solid var(--primary-color);
+    border-radius: 50%;
+    display: block;
+    height: 138px;
+    margin: 0 auto 18px;
+    object-fit: cover;
+    object-position: 35% 48%;
+    width: 138px;
+}
+
+.id-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.id-card-details strong {
+    font-size: 1.35rem;
+}
+
+.id-card-details > span {
+    color: var(--muted-text);
+    font-size: 0.88rem;
+}
+
+.id-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin: 18px 0;
+}
+
+.id-tech-list span {
+    background-color: var(--accent-surface);
+    border-radius: 20px;
+    color: var(--primary-color);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 8px;
+}
+
+.id-code {
+    border-top: 1px dashed var(--border-color);
+    color: var(--muted-text);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    padding-top: 14px;
+}
+
+@keyframes id-card-bounce {
+    0%,
+    100% {
+        transform: translateY(0) rotate(2deg);
+    }
+
+    50% {
+        transform: translateY(-18px) rotate(-1deg);
+    }
 }
 
 .hero-buttons,
@@ -453,6 +625,14 @@ button:focus-visible {
 }
 
 @media (max-width: 850px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .id-card-stage {
+        min-height: 450px;
+    }
+
     .skills-grid,
     .projects-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -495,6 +675,15 @@ button:focus-visible {
         min-height: 95vh;
     }
 
+    .id-card-stage::before {
+        height: 320px;
+        width: 320px;
+    }
+
+    .floating-id {
+        width: min(90%, 290px);
+    }
+
     .section {
         padding: 70px 0;
     }
@@ -516,6 +705,8 @@ button:focus-visible {
     *,
     *::before,
     *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
