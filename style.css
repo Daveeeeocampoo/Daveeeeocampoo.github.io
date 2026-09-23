@@ -292,167 +292,212 @@ button {
     max-width: 650px;
 }
 
-.id-card-stage {
+.plv-id-stage {
     align-items: center;
     display: flex;
     justify-content: center;
-    min-height: 480px;
+    min-height: 580px;
     perspective: 1000px;
     position: relative;
 }
 
-.id-card-stage::before {
-    background-color: var(--accent-surface);
-    border: 1px solid var(--border-color);
+.plv-id-stage::before {
+    background: radial-gradient(circle, var(--accent-surface), transparent 68%);
     border-radius: 50%;
     content: "";
-    height: 360px;
+    height: 440px;
     position: absolute;
-    width: 360px;
+    width: 440px;
 }
 
-.floating-id {
-    animation: id-card-bounce 3.8s ease-in-out infinite;
-    filter: drop-shadow(0 24px 25px rgba(0, 0, 0, 0.35));
-    padding-top: 82px;
+.plv-hanging-id {
+    animation: plv-id-swing 6.5s ease-in-out infinite;
     position: relative;
+    transform-origin: 50% 4px;
     width: min(100%, 310px);
+    z-index: 1;
 }
 
-.id-lanyard {
-    border-left: 5px solid var(--primary-color);
-    border-radius: 30px 30px 0 0;
-    border-right: 5px solid var(--primary-dark);
-    height: 105px;
-    left: 50%;
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    width: 92px;
+.plv-lace-picture {
+    display: block;
 }
 
-.developer-id {
-    background:
-        linear-gradient(145deg, var(--accent-surface), transparent 42%),
-        var(--card-background);
-    border: 1px solid var(--border-color);
-    border-radius: 18px;
-    overflow: hidden;
-    padding: 28px 24px 22px;
-    position: relative;
-    text-align: center;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+.plv-lace-image {
+    display: block;
+    filter: drop-shadow(0 13px 10px rgba(0, 0, 0, 0.3));
+    height: auto;
+    margin: 0 auto;
+    pointer-events: none;
+    user-select: none;
+    width: 230px;
 }
 
-.developer-id:hover {
-    border-color: var(--primary-color);
-    transform: rotate(-2deg) scale(1.02);
-}
-
-.id-clip {
-    background-color: var(--background);
-    border: 2px solid var(--border-color);
-    border-radius: 20px;
-    height: 14px;
-    left: 50%;
-    position: absolute;
-    top: 10px;
-    transform: translateX(-50%);
-    width: 58px;
-}
-
-.id-card-header {
+.plv-card-connector {
     align-items: center;
+    background: linear-gradient(90deg, #a8b1bd, #f4f7fa 48%, #7d8794);
+    border: 1px solid #647080;
+    border-radius: 5px 5px 9px 9px;
     display: flex;
-    font-size: 0.72rem;
-    font-weight: 700;
-    justify-content: space-between;
-    letter-spacing: 0.09em;
-    margin-bottom: 20px;
+    height: 27px;
+    justify-content: center;
+    margin: -8px auto -3px;
+    position: relative;
+    width: 34px;
+    z-index: 2;
+}
+
+.plv-card-connector span {
+    border: 2px solid #657181;
+    border-radius: 50%;
+    height: 13px;
+    width: 13px;
+}
+
+.plv-student-card {
+    background-color: #f7faff;
+    border: 4px solid rgba(255, 255, 255, 0.82);
+    border-radius: 15px;
+    box-shadow:
+        0 28px 48px rgba(2, 5, 15, 0.48),
+        0 0 0 1px rgba(167, 139, 250, 0.24);
+    color: #0d1e38;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+}
+
+.plv-card-header {
+    align-items: center;
+    background: linear-gradient(120deg, #064a91, #0879c9);
+    color: #ffffff;
+    display: flex;
+    gap: 10px;
+    padding: 10px 13px;
+    text-align: left;
+}
+
+.plv-card-monogram {
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50%;
+    color: #075ea9;
+    display: flex;
+    flex: 0 0 38px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    height: 38px;
+    justify-content: center;
+    letter-spacing: -0.04em;
+}
+
+.plv-card-header > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.plv-card-header small {
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.id-card-header > span:first-child {
-    color: var(--primary-color);
+.plv-card-header strong {
+    font-size: 0.78rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
 }
 
-.id-status {
+.plv-card-body {
     align-items: center;
-    color: var(--muted-text);
-    display: flex;
-    gap: 5px;
-    letter-spacing: 0.04em;
+    display: grid;
+    gap: 13px;
+    grid-template-columns: 88px minmax(0, 1fr);
+    padding: 15px 14px 13px;
 }
 
-.id-status > span {
-    background-color: var(--primary-color);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--primary-color);
-    height: 7px;
-    width: 7px;
-}
-
-.id-photo {
-    aspect-ratio: 1;
-    border: 4px solid var(--primary-color);
-    border-radius: 50%;
-    display: block;
-    height: 138px;
-    margin: 0 auto 18px;
+.plv-card-photo {
+    border: 2px solid #0b67b2;
+    border-radius: 6px;
+    height: 108px;
     object-fit: cover;
     object-position: 35% 48%;
-    width: 138px;
+    width: 88px;
 }
 
-.id-card-details {
+.plv-card-details {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    min-width: 0;
+    text-align: left;
 }
 
-.id-card-details strong {
-    font-size: 1.35rem;
-}
-
-.id-card-details > span {
-    color: var(--muted-text);
-    font-size: 0.88rem;
-}
-
-.id-tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 18px 0;
-}
-
-.id-tech-list span {
-    background-color: var(--accent-surface);
-    border-radius: 20px;
-    color: var(--primary-color);
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 4px 8px;
-}
-
-.id-code {
-    border-top: 1px dashed var(--border-color);
-    color: var(--muted-text);
-    font-family: "Courier New", Courier, monospace;
-    font-size: 0.7rem;
+.plv-card-details > span {
+    color: #0873be;
+    font-size: 0.58rem;
+    font-weight: 800;
     letter-spacing: 0.14em;
-    padding-top: 14px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
 }
 
-@keyframes id-card-bounce {
+.plv-card-details h3 {
+    font-size: 0.9rem;
+    line-height: 1.15;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+}
+
+.plv-card-details p {
+    color: #30445f;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.plv-card-details small {
+    border-top: 1px solid #d4dfed;
+    color: #627087;
+    font-size: 0.58rem;
+    font-weight: 700;
+    margin-top: 8px;
+    padding-top: 6px;
+    text-transform: uppercase;
+}
+
+.plv-card-footer {
+    align-items: center;
+    background-color: #e7f0fb;
+    border-top: 1px solid #cfdeed;
+    color: #0a4f8b;
+    display: grid;
+    font-size: 0.54rem;
+    gap: 10px;
+    grid-template-columns: auto 1fr auto;
+    letter-spacing: 0.08em;
+    padding: 8px 13px;
+    text-transform: uppercase;
+}
+
+.plv-card-barcode {
+    background: repeating-linear-gradient(
+        90deg,
+        #14314f 0 2px,
+        transparent 2px 4px,
+        #14314f 4px 5px,
+        transparent 5px 8px
+    );
+    height: 16px;
+}
+
+@keyframes plv-id-swing {
     0%,
     100% {
-        transform: translateY(0) rotate(2deg);
+        transform: rotate(-1.2deg);
     }
 
     50% {
-        transform: translateY(-18px) rotate(-1deg);
+        transform: rotate(1.2deg);
     }
 }
 
@@ -629,8 +674,8 @@ button:focus-visible {
         grid-template-columns: 1fr;
     }
 
-    .id-card-stage {
-        min-height: 450px;
+    .plv-id-stage {
+        min-height: 580px;
     }
 
     .skills-grid,
@@ -675,13 +720,33 @@ button:focus-visible {
         min-height: 95vh;
     }
 
-    .id-card-stage::before {
-        height: 320px;
-        width: 320px;
+    .plv-id-stage {
+        min-height: 535px;
     }
 
-    .floating-id {
-        width: min(90%, 290px);
+    .plv-id-stage::before {
+        height: 330px;
+        width: 330px;
+    }
+
+    .plv-hanging-id {
+        width: min(94%, 285px);
+    }
+
+    .plv-lace-image {
+        width: 205px;
+    }
+
+    .plv-card-body {
+        gap: 11px;
+        grid-template-columns: 82px minmax(0, 1fr);
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .plv-card-photo {
+        height: 101px;
+        width: 82px;
     }
 
     .section {
@@ -708,5 +773,10 @@ button:focus-visible {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .plv-hanging-id {
+        animation: none !important;
+        transform: none;
     }
 }
