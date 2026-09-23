@@ -6,10 +6,23 @@
 
     <meta
         name="description"
-        content="portfolio of Dave Ocampo"
+        content="Portfolio of Janzen Dave O. Castellano, an Information Technology student interested in software, web development, databases, and networking."
     >
 
-    <title>Dave Ocampo | IT Portfolio</title>
+    <title>Janzen Dave O. Castellano | IT Portfolio</title>
+
+    <script>
+        try {
+            const savedTheme = localStorage.getItem("portfolio-theme");
+            const availableThemes = ["red", "pink", "blue", "green", "purple"];
+
+            if (availableThemes.includes(savedTheme)) {
+                document.documentElement.dataset.theme = savedTheme;
+            }
+        } catch (error) {
+            // The default blue theme remains active if storage is unavailable.
+        }
+    </script>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,16 +30,7 @@
 <body>
     <header class="header">
         <nav class="navbar container">
-            <a href="#home" class="logo">Dave<span>.</span></a>
-
-            <button
-                id="menu-button"
-                class="menu-button"
-                type="button"
-                aria-label="Open navigation menu"
-            >
-                ☰
-            </button>
+            <a href="#home" class="logo">Janzen<span>.</span></a>
 
             <div id="nav-links" class="nav-links">
                 <a href="#home">Home</a>
@@ -34,6 +38,66 @@
                 <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="theme-picker">
+                    <button
+                        id="theme-toggle"
+                        class="theme-toggle"
+                        type="button"
+                        aria-label="Choose color theme"
+                        aria-controls="theme-menu"
+                        aria-expanded="false"
+                    >
+                        <span class="current-theme-color" aria-hidden="true"></span>
+                        <span>Theme</span>
+                    </button>
+
+                    <div
+                        id="theme-menu"
+                        class="theme-menu"
+                        role="group"
+                        aria-label="Color themes"
+                        hidden
+                    >
+                        <button class="theme-option" type="button" data-theme="red" aria-pressed="false">
+                            <span class="theme-swatch red-swatch" aria-hidden="true"></span>
+                            <span>Red</span>
+                        </button>
+
+                        <button class="theme-option" type="button" data-theme="pink" aria-pressed="false">
+                            <span class="theme-swatch pink-swatch" aria-hidden="true"></span>
+                            <span>Pink</span>
+                        </button>
+
+                        <button class="theme-option" type="button" data-theme="blue" aria-pressed="true">
+                            <span class="theme-swatch blue-swatch" aria-hidden="true"></span>
+                            <span>Blue</span>
+                        </button>
+
+                        <button class="theme-option" type="button" data-theme="green" aria-pressed="false">
+                            <span class="theme-swatch green-swatch" aria-hidden="true"></span>
+                            <span>Green</span>
+                        </button>
+
+                        <button class="theme-option" type="button" data-theme="purple" aria-pressed="false">
+                            <span class="theme-swatch purple-swatch" aria-hidden="true"></span>
+                            <span>Purple</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button
+                    id="menu-button"
+                    class="menu-button"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-controls="nav-links"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
             </div>
         </nav>
     </header>
@@ -43,7 +107,7 @@
             <div class="container hero-content">
                 <p class="introduction">Hello, my name is</p>
 
-                <h1>Dave Ocampo</h1>
+                <h1>Janzen Dave O. Castellano</h1>
 
                 <h2>Information Technology Student</h2>
 
@@ -227,7 +291,7 @@
     <footer class="footer">
         <div class="container">
             <p>
-                &copy; <span id="current-year"></span> Dave Ocampo.
+                &copy; <span id="current-year"></span> Janzen Dave O. Castellano.
                 All rights reserved.
             </p>
         </div>
