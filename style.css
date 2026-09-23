@@ -252,6 +252,7 @@ button {
         var(--background);
     display: flex;
     min-height: 100vh;
+    overflow-x: clip;
     padding: 110px 0 70px;
 }
 
@@ -292,78 +293,102 @@ button {
     max-width: 650px;
 }
 
-.plv-id-stage {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    min-height: 580px;
-    perspective: 1000px;
+.plv-drag-stage {
+    contain: layout paint;
+    height: 560px;
+    isolation: isolate;
+    justify-self: end;
+    max-width: 390px;
+    overflow: hidden;
+    pointer-events: none;
     position: relative;
-}
-
-.plv-id-stage::before {
-    background: radial-gradient(circle, var(--accent-surface), transparent 68%);
-    border-radius: 50%;
-    content: "";
-    height: 440px;
-    position: absolute;
-    width: 440px;
-}
-
-.plv-hanging-id {
-    animation: plv-id-swing 6.5s ease-in-out infinite;
-    position: relative;
-    transform-origin: 50% 4px;
-    width: min(100%, 310px);
+    width: 100%;
     z-index: 1;
 }
 
-.plv-lace-picture {
-    display: block;
+.plv-drag-stage::before {
+    background: radial-gradient(circle, var(--accent-surface), transparent 70%);
+    border-radius: 50%;
+    content: "";
+    height: min(90vw, 380px);
+    left: 50%;
+    opacity: 0.8;
+    position: absolute;
+    top: 48%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 380px);
 }
 
-.plv-lace-image {
-    display: block;
-    filter: drop-shadow(0 13px 10px rgba(0, 0, 0, 0.3));
-    height: auto;
-    margin: 0 auto;
-    pointer-events: none;
-    user-select: none;
-    width: 230px;
-}
-
-.plv-card-connector {
+.plv-drag-object {
     align-items: center;
-    background: linear-gradient(90deg, #a8b1bd, #f4f7fa 48%, #7d8794);
-    border: 1px solid #647080;
-    border-radius: 5px 5px 9px 9px;
+    cursor: grab;
     display: flex;
-    height: 27px;
-    justify-content: center;
-    margin: -8px auto -3px;
-    position: relative;
-    width: 34px;
+    flex-direction: column;
+    left: 0;
+    pointer-events: auto;
+    position: absolute;
+    top: 0;
+    touch-action: none;
+    transform-origin: 50% 15%;
+    user-select: none;
+    width: min(300px, 100%);
+    will-change: transform;
     z-index: 2;
 }
 
-.plv-card-connector span {
-    border: 2px solid #657181;
+.plv-drag-object.is-dragging {
+    cursor: grabbing;
+}
+
+.plv-lanyard-image {
+    -webkit-user-drag: none;
+    display: block;
+    height: auto;
+    max-width: none;
+    pointer-events: none;
+    user-select: none;
+    width: 200px;
+}
+
+.plv-card-connector {
+    background: linear-gradient(90deg, #66717d, #eef2f5 48%, #66717d);
+    border: 1px solid #505b66;
+    border-radius: 3px 3px 7px 7px;
+    height: 18px;
+    margin-bottom: -4px;
+    margin-top: -7px;
+    pointer-events: none;
+    position: relative;
+    width: 25px;
+    z-index: 2;
+}
+
+.plv-card-connector::after {
+    border: 2px solid #58636f;
     border-radius: 50%;
-    height: 13px;
-    width: 13px;
+    content: "";
+    height: 7px;
+    left: 50%;
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    width: 7px;
 }
 
 .plv-student-card {
     background-color: #f7faff;
-    border: 4px solid rgba(255, 255, 255, 0.82);
-    border-radius: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
     box-shadow:
-        0 28px 48px rgba(2, 5, 15, 0.48),
-        0 0 0 1px rgba(167, 139, 250, 0.24);
+        0 15px 24px rgba(2, 5, 15, 0.32),
+        0 0 0 1px var(--primary-color);
     color: #0d1e38;
-    margin: 0 auto;
     overflow: hidden;
-    width: 100%;
+    pointer-events: none;
+    position: relative;
+    user-select: none;
+    width: 210px;
+    z-index: 1;
 }
 
 .plv-card-header {
@@ -371,8 +396,8 @@ button {
     background: linear-gradient(120deg, #064a91, #0879c9);
     color: #ffffff;
     display: flex;
-    gap: 10px;
-    padding: 10px 13px;
+    gap: 8px;
+    padding: 8px 10px;
     text-align: left;
 }
 
@@ -382,10 +407,10 @@ button {
     border-radius: 50%;
     color: #075ea9;
     display: flex;
-    flex: 0 0 38px;
-    font-size: 0.68rem;
+    flex: 0 0 31px;
+    font-size: 0.58rem;
     font-weight: 800;
-    height: 38px;
+    height: 31px;
     justify-content: center;
     letter-spacing: -0.04em;
 }
@@ -393,36 +418,38 @@ button {
 .plv-card-header > span:last-child {
     display: flex;
     flex-direction: column;
-    line-height: 1.15;
+    line-height: 1.12;
 }
 
 .plv-card-header small {
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
+    font-size: 0.46rem;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
 }
 
 .plv-card-header strong {
-    font-size: 0.78rem;
-    letter-spacing: 0.025em;
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
 }
 
 .plv-card-body {
     align-items: center;
     display: grid;
-    gap: 13px;
-    grid-template-columns: 88px minmax(0, 1fr);
-    padding: 15px 14px 13px;
+    gap: 10px;
+    grid-template-columns: 66px minmax(0, 1fr);
+    padding: 10px;
 }
 
 .plv-card-photo {
+    -webkit-user-drag: none;
     border: 2px solid #0b67b2;
-    border-radius: 6px;
-    height: 108px;
+    border-radius: 5px;
+    height: 80px;
     object-fit: cover;
-    object-position: 35% 48%;
-    width: 88px;
+    object-position: center;
+    pointer-events: none;
+    width: 66px;
 }
 
 .plv-card-details {
@@ -434,15 +461,15 @@ button {
 
 .plv-card-details > span {
     color: #0873be;
-    font-size: 0.58rem;
+    font-size: 0.5rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     margin-bottom: 4px;
     text-transform: uppercase;
 }
 
 .plv-card-details h3 {
-    font-size: 0.9rem;
+    font-size: 0.72rem;
     line-height: 1.15;
     margin-bottom: 7px;
     text-transform: uppercase;
@@ -450,19 +477,9 @@ button {
 
 .plv-card-details p {
     color: #30445f;
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     font-weight: 700;
     line-height: 1.25;
-}
-
-.plv-card-details small {
-    border-top: 1px solid #d4dfed;
-    color: #627087;
-    font-size: 0.58rem;
-    font-weight: 700;
-    margin-top: 8px;
-    padding-top: 6px;
-    text-transform: uppercase;
 }
 
 .plv-card-footer {
@@ -471,11 +488,11 @@ button {
     border-top: 1px solid #cfdeed;
     color: #0a4f8b;
     display: grid;
-    font-size: 0.54rem;
-    gap: 10px;
+    font-size: 0.46rem;
+    gap: 8px;
     grid-template-columns: auto 1fr auto;
-    letter-spacing: 0.08em;
-    padding: 8px 13px;
+    letter-spacing: 0.07em;
+    padding: 6px 10px;
     text-transform: uppercase;
 }
 
@@ -487,18 +504,13 @@ button {
         #14314f 4px 5px,
         transparent 5px 8px
     );
-    height: 16px;
+    height: 13px;
 }
 
-@keyframes plv-id-swing {
-    0%,
-    100% {
-        transform: rotate(-1.2deg);
-    }
-
-    50% {
-        transform: rotate(1.2deg);
-    }
+.plv-drag-stage[data-reduced-motion="true"] .plv-drag-object {
+    cursor: default;
+    touch-action: pan-y;
+    will-change: auto;
 }
 
 .hero-buttons,
@@ -674,8 +686,10 @@ button:focus-visible {
         grid-template-columns: 1fr;
     }
 
-    .plv-id-stage {
-        min-height: 580px;
+    .plv-drag-stage {
+        height: 520px;
+        justify-self: center;
+        max-width: 560px;
     }
 
     .skills-grid,
@@ -720,33 +734,97 @@ button:focus-visible {
         min-height: 95vh;
     }
 
-    .plv-id-stage {
-        min-height: 535px;
+    .hero-content {
+        gap: 25px;
     }
 
-    .plv-id-stage::before {
-        height: 330px;
-        width: 330px;
+    .hero-copy {
+        grid-row: 2;
     }
 
-    .plv-hanging-id {
-        width: min(94%, 285px);
+    .plv-drag-stage {
+        grid-row: 1;
+        height: 350px;
+        max-width: 340px;
     }
 
-    .plv-lace-image {
-        width: 205px;
+    .plv-drag-object {
+        width: min(230px, 100%);
+    }
+
+    .plv-lanyard-image {
+        width: 125px;
+    }
+
+    .plv-card-connector {
+        height: 14px;
+        margin-bottom: -3px;
+        margin-top: -5px;
+        width: 21px;
+    }
+
+    .plv-card-connector::after {
+        height: 5px;
+        top: 3px;
+        width: 5px;
+    }
+
+    .plv-student-card {
+        width: 165px;
+    }
+
+    .plv-card-header {
+        gap: 5px;
+        padding: 5px 7px;
+    }
+
+    .plv-card-monogram {
+        flex-basis: 24px;
+        font-size: 0.46rem;
+        height: 24px;
+    }
+
+    .plv-card-header small {
+        font-size: 0.36rem;
+    }
+
+    .plv-card-header strong {
+        font-size: 0.45rem;
     }
 
     .plv-card-body {
-        gap: 11px;
-        grid-template-columns: 82px minmax(0, 1fr);
-        padding-left: 12px;
-        padding-right: 12px;
+        gap: 7px;
+        grid-template-columns: 49px minmax(0, 1fr);
+        padding: 7px;
     }
 
     .plv-card-photo {
-        height: 101px;
-        width: 82px;
+        height: 61px;
+        width: 49px;
+    }
+
+    .plv-card-details > span {
+        font-size: 0.38rem;
+        margin-bottom: 2px;
+    }
+
+    .plv-card-details h3 {
+        font-size: 0.52rem;
+        margin-bottom: 4px;
+    }
+
+    .plv-card-details p {
+        font-size: 0.44rem;
+    }
+
+    .plv-card-footer {
+        font-size: 0.36rem;
+        gap: 5px;
+        padding: 4px 7px;
+    }
+
+    .plv-card-barcode {
+        height: 9px;
     }
 
     .section {
@@ -775,8 +853,4 @@ button:focus-visible {
         transition-duration: 0.01ms !important;
     }
 
-    .plv-hanging-id {
-        animation: none !important;
-        transform: none;
-    }
 }

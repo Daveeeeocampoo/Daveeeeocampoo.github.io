@@ -133,25 +133,30 @@
                     </div>
                 </div>
 
-                <aside class="plv-id-stage" aria-label="PLV student identification">
-                    <div class="plv-hanging-id">
-                        <picture class="plv-lace-picture">
-                            <source
-                                media="(prefers-reduced-motion: reduce)"
-                                srcset="images/plv-lanyard-white-static.png"
-                            >
-                            <img
-                                class="plv-lace-image"
-                                src="images/plv-lanyard-white-sway-transparent.gif"
-                                alt="Blue PLV lanyard with school markings, seal, and circular pin"
-                            >
-                        </picture>
+                <aside
+                    id="plv-drag-stage"
+                    class="plv-drag-stage"
+                    aria-label="Interactive PLV lanyard and student ID. Drag the lanyard or card to move them together."
+                >
+                    <div
+                        id="plv-drag-object"
+                        class="plv-drag-object"
+                        data-drag-object
+                    >
+                        <img
+                            class="plv-lanyard-image"
+                            src="images/plv-lanyard-white-sway-transparent.gif"
+                            alt="Blue PLV lanyard with its original school markings, seal, and circular pin"
+                            draggable="false"
+                        >
 
-                        <div class="plv-card-connector" aria-hidden="true">
-                            <span></span>
-                        </div>
+                        <span class="plv-card-connector" aria-hidden="true"></span>
 
-                        <article class="plv-student-card" aria-label="PLV student ID card">
+                        <article
+                            id="plv-student-card"
+                            class="plv-student-card"
+                            aria-label="PLV student identification card"
+                        >
                             <header class="plv-card-header">
                                 <span class="plv-card-monogram" aria-hidden="true">PLV</span>
                                 <span>
@@ -171,7 +176,6 @@
                                     <span>Student</span>
                                     <h3>Janzen Dave O. Castellano</h3>
                                     <p>Information Technology</p>
-                                    <small>Student Identification</small>
                                 </div>
                             </div>
 
