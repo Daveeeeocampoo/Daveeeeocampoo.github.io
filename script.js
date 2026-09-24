@@ -461,25 +461,23 @@ function initializePlvPendulum() {
         }
 
         const wasReducedMotion = reducedMotion;
-        const hiddenRatio =
-            window.innerWidth <= 650
-                ? 0.62
-                : window.innerWidth <= 850
-                    ? 0.6
-                    : 0.58;
+        const isPhone = window.innerWidth < 600;
+        const isTablet = window.innerWidth < 900;
+        const hiddenRatio = isPhone ? 0.62 : isTablet ? 0.6 : 0.58;
 
         reducedMotion = reducedMotionQuery.matches;
         stage.dataset.reducedMotion = String(reducedMotion);
-        anchorX = stageBounds.width / 2;
+        anchorX =
+            stageBounds.width * (window.innerWidth >= 900 ? 0.6 : 0.5);
         anchorY = -lanyardHeight * hiddenRatio;
         verticalSpring.restLength = lanyardHeight + cardHeight * 0.5;
 
-        const desiredMaximumExtension =
-            window.innerWidth <= 650
-                ? 70
-                : window.innerWidth <= 850
-                    ? 110
-                    : 130;
+        const extensionRatio = isPhone
+            ? 70 / 165
+            : isTablet
+                ? 110 / 210
+                : 0.52;
+        const desiredMaximumExtension = cardWidth * extensionRatio;
         const hiddenLaceLimit = Math.max(
             0,
             lanyardHeight * (hiddenRatio - 0.3)

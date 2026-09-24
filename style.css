@@ -296,14 +296,14 @@ button {
 
 .plv-pendulum-stage {
     contain: layout paint;
-    height: 500px;
+    height: clamp(590px, 46vw, 650px);
     isolation: isolate;
     overflow: hidden;
     pointer-events: none;
     position: absolute;
-    right: max(2%, calc((100vw - var(--maximum-width)) / 2 - 60px));
+    right: max(20px, calc((100vw - 1400px) / 2 + 20px));
     top: 70px;
-    width: min(500px, 42vw);
+    width: clamp(620px, 65vw, 720px);
     z-index: 2;
 }
 
@@ -311,13 +311,22 @@ button {
     background: radial-gradient(circle, var(--accent-surface), transparent 70%);
     border-radius: 50%;
     content: "";
-    height: 360px;
+    height: clamp(440px, 38vw, 560px);
     left: 50%;
     opacity: 0.72;
     position: absolute;
     top: 47%;
     transform: translate(-50%, -50%);
-    width: min(360px, 100%);
+    width: min(clamp(440px, 38vw, 560px), 100%);
+}
+
+.plv-size-wrapper {
+    --plv-card-height: clamp(213px, 17.2vw, 238px);
+    --plv-card-width: clamp(260px, 21vw, 290px);
+    --plv-lace-width: clamp(426px, 34.5vw, 476px);
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
 }
 
 .plv-pendulum-object {
@@ -328,12 +337,12 @@ button {
     transform-origin: 50% 0;
     transform-style: preserve-3d;
     user-select: none;
-    width: 360px;
+    width: var(--plv-lace-width);
     will-change: transform;
     z-index: 2;
 }
 
-.plv-pendulum-slider {
+.plv-inner-visual {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -372,13 +381,13 @@ button {
 
 .plv-card-shell {
     cursor: grab;
-    height: 180px;
+    height: var(--plv-card-height);
     margin-top: -5px;
     perspective: 900px;
     pointer-events: auto;
     position: relative;
     touch-action: none;
-    width: 220px;
+    width: var(--plv-card-width);
 }
 
 .plv-card-rotor {
@@ -775,31 +784,133 @@ button:focus-visible {
     text-align: center;
 }
 
-@media (max-width: 850px) {
+@media (min-width: 900px) {
+    .plv-card-header {
+        gap: clamp(9px, 0.8vw, 12px);
+        padding: clamp(9px, 0.8vw, 12px) clamp(12px, 1vw, 15px);
+    }
+
+    .plv-card-monogram {
+        flex-basis: clamp(37px, 3vw, 46px);
+        font-size: clamp(0.68rem, 0.8vw, 0.82rem);
+        height: clamp(37px, 3vw, 46px);
+    }
+
+    .plv-card-header small {
+        font-size: clamp(0.54rem, 0.7vw, 0.66rem);
+    }
+
+    .plv-card-header strong {
+        font-size: clamp(0.73rem, 0.9vw, 0.88rem);
+    }
+
+    .plv-card-body {
+        gap: clamp(12px, 1vw, 15px);
+        grid-template-columns: clamp(78px, 6.5vw, 100px) minmax(0, 1fr);
+        padding: clamp(12px, 1vw, 15px);
+    }
+
+    .plv-card-photo {
+        height: clamp(95px, 7.9vw, 121px);
+        width: clamp(78px, 6.5vw, 100px);
+    }
+
+    .plv-card-details > span {
+        font-size: clamp(0.59rem, 0.75vw, 0.72rem);
+    }
+
+    .plv-card-details h3 {
+        font-size: clamp(0.85rem, 1.05vw, 1rem);
+    }
+
+    .plv-card-details p {
+        font-size: clamp(0.73rem, 0.9vw, 0.88rem);
+    }
+
+    .plv-card-footer {
+        font-size: clamp(0.54rem, 0.7vw, 0.66rem);
+        gap: clamp(9px, 0.8vw, 12px);
+        padding: clamp(7px, 0.6vw, 9px) clamp(12px, 1vw, 15px);
+    }
+
+    .plv-card-barcode {
+        height: clamp(15px, 1.2vw, 18px);
+    }
+
+    .plv-card-back-band {
+        font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+        padding: clamp(11px, 0.9vw, 14px);
+    }
+
+    .plv-card-back-content {
+        padding: clamp(10px, 0.8vw, 13px) clamp(18px, 1.5vw, 23px);
+    }
+
+    .plv-card-back-monogram {
+        font-size: clamp(0.72rem, 0.8vw, 0.82rem);
+        height: clamp(46px, 3.6vw, 55px);
+        width: clamp(46px, 3.6vw, 55px);
+    }
+
+    .plv-card-back-content h3 {
+        font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+    }
+
+    .plv-card-back-content p {
+        font-size: clamp(0.64rem, 0.75vw, 0.75rem);
+    }
+
+    .plv-card-back-content small {
+        font-size: clamp(0.56rem, 0.65vw, 0.66rem);
+    }
+
+    .plv-card-back-stripe {
+        height: clamp(12px, 1vw, 15px);
+    }
+}
+
+@media (max-width: 899px) {
     .hero-content {
         grid-template-columns: 1fr;
         padding-top: 350px;
     }
 
-    .plv-pendulum-stage {
-        height: 470px;
-        right: 50%;
-        transform: translateX(50%);
-        width: min(440px, 100%);
-    }
-
-    .plv-pendulum-object {
-        width: min(330px, 100%);
-    }
-
-    .plv-card-shell {
-        height: 180px;
-        width: 210px;
-    }
-
     .skills-grid,
     .projects-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .plv-size-wrapper {
+        --plv-card-height: clamp(163px, 23.438vw, 189px);
+        --plv-card-width: clamp(190px, 27.344vw, 220px);
+        --plv-lace-width: clamp(299px, 42.969vw, 346px);
+    }
+
+    .plv-pendulum-stage {
+        height: 490px;
+        right: 50%;
+        transform: translateX(50%);
+        width: min(500px, 100%);
+    }
+
+    .plv-pendulum-stage::before {
+        height: 360px;
+        width: min(360px, 100%);
+    }
+}
+
+@media (min-width: 1400px) {
+    .plv-size-wrapper {
+        --plv-card-height: clamp(246px, 18vw, 271px);
+        --plv-card-width: clamp(300px, 22vw, 330px);
+        --plv-lace-width: clamp(492px, 36vw, 541px);
+    }
+
+    .plv-pendulum-stage {
+        height: clamp(700px, 50vw, 760px);
+        width: clamp(720px, 52vw, 780px);
     }
 }
 
@@ -841,7 +952,30 @@ button:focus-visible {
 
     .hero-content {
         gap: 25px;
+    }
+
+    .section {
+        padding: 70px 0;
+    }
+
+    .theme-toggle span:last-child {
+        display: none;
+    }
+
+    .theme-toggle {
+        padding: 9px;
+    }
+}
+
+@media (max-width: 599px) {
+    .hero-content {
         padding-top: 280px;
+    }
+
+    .plv-size-wrapper {
+        --plv-card-height: clamp(132px, 33.846vw, 140px);
+        --plv-card-width: clamp(165px, 42.308vw, 175px);
+        --plv-lace-width: clamp(300px, 76.923vw, 318px);
     }
 
     .plv-pendulum-stage {
@@ -854,15 +988,6 @@ button:focus-visible {
     .plv-pendulum-stage::before {
         height: 290px;
         width: 290px;
-    }
-
-    .plv-pendulum-object {
-        width: min(300px, 100%);
-    }
-
-    .plv-card-shell {
-        height: 132px;
-        width: 165px;
     }
 
     .plv-card-header {
@@ -953,18 +1078,6 @@ button:focus-visible {
     .plv-card-back-stripe {
         height: 7px;
     }
-
-    .section {
-        padding: 70px 0;
-    }
-
-    .theme-toggle span:last-child {
-        display: none;
-    }
-
-    .theme-toggle {
-        padding: 9px;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -979,5 +1092,4 @@ button:focus-visible {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-
 }
