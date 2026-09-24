@@ -252,8 +252,9 @@ button {
         var(--background);
     display: flex;
     min-height: 100vh;
-    overflow-x: clip;
+    overflow: hidden;
     padding: 110px 0 70px;
+    position: relative;
 }
 
 .hero-content {
@@ -293,50 +294,58 @@ button {
     max-width: 650px;
 }
 
-.plv-drag-stage {
+.plv-pendulum-stage {
     contain: layout paint;
-    height: 560px;
+    height: 500px;
     isolation: isolate;
-    justify-self: end;
-    max-width: 390px;
     overflow: hidden;
     pointer-events: none;
-    position: relative;
-    width: 100%;
-    z-index: 1;
+    position: absolute;
+    right: max(2%, calc((100vw - var(--maximum-width)) / 2 - 60px));
+    top: 70px;
+    width: min(500px, 42vw);
+    z-index: 2;
 }
 
-.plv-drag-stage::before {
+.plv-pendulum-stage::before {
     background: radial-gradient(circle, var(--accent-surface), transparent 70%);
     border-radius: 50%;
     content: "";
-    height: min(90vw, 380px);
+    height: 360px;
     left: 50%;
-    opacity: 0.8;
+    opacity: 0.72;
     position: absolute;
-    top: 48%;
+    top: 47%;
     transform: translate(-50%, -50%);
-    width: min(90vw, 380px);
+    width: min(360px, 100%);
 }
 
-.plv-drag-object {
-    align-items: center;
-    cursor: grab;
-    display: flex;
-    flex-direction: column;
+.plv-pendulum-object {
     left: 0;
-    pointer-events: auto;
+    pointer-events: none;
     position: absolute;
     top: 0;
-    touch-action: none;
-    transform-origin: 50% 15%;
+    transform-origin: 50% 0;
+    transform-style: preserve-3d;
     user-select: none;
-    width: min(300px, 100%);
+    width: 360px;
     will-change: transform;
     z-index: 2;
 }
 
-.plv-drag-object.is-dragging {
+.plv-pendulum-slider {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    position: relative;
+    transform-style: preserve-3d;
+    width: 100%;
+    will-change: transform;
+}
+
+.plv-pendulum-object.is-dragging .plv-lanyard-handle,
+.plv-pendulum-object.is-dragging .plv-card-shell {
     cursor: grabbing;
 }
 
@@ -344,38 +353,44 @@ button {
     -webkit-user-drag: none;
     display: block;
     height: auto;
-    max-width: none;
     pointer-events: none;
     user-select: none;
-    width: 200px;
+    width: 100%;
 }
 
-.plv-card-connector {
-    background: linear-gradient(90deg, #66717d, #eef2f5 48%, #66717d);
-    border: 1px solid #505b66;
-    border-radius: 3px 3px 7px 7px;
-    height: 18px;
-    margin-bottom: -4px;
-    margin-top: -7px;
-    pointer-events: none;
-    position: relative;
-    width: 25px;
-    z-index: 2;
-}
-
-.plv-card-connector::after {
-    border: 2px solid #58636f;
-    border-radius: 50%;
-    content: "";
-    height: 7px;
-    left: 50%;
+.plv-lanyard-handle {
+    cursor: grab;
+    height: 30%;
+    left: 32%;
+    pointer-events: auto;
     position: absolute;
-    top: 4px;
-    transform: translateX(-50%);
-    width: 7px;
+    top: 42%;
+    touch-action: none;
+    width: 36%;
+    z-index: 3;
+}
+
+.plv-card-shell {
+    cursor: grab;
+    height: 180px;
+    margin-top: -5px;
+    perspective: 900px;
+    pointer-events: auto;
+    position: relative;
+    touch-action: none;
+    width: 220px;
+}
+
+.plv-card-rotor {
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    width: 100%;
+    will-change: transform;
 }
 
 .plv-student-card {
+    backface-visibility: hidden;
     background-color: #f7faff;
     border: 3px solid rgba(255, 255, 255, 0.9);
     border-radius: 12px;
@@ -383,12 +398,91 @@ button {
         0 15px 24px rgba(2, 5, 15, 0.32),
         0 0 0 1px var(--primary-color);
     color: #0d1e38;
+    height: 100%;
+    left: 0;
     overflow: hidden;
     pointer-events: none;
-    position: relative;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
     user-select: none;
-    width: 210px;
-    z-index: 1;
+    width: 100%;
+}
+
+.plv-card-front {
+    transform: rotateY(0deg);
+}
+
+.plv-card-back {
+    align-items: center;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(224, 238, 252, 0.98));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    transform: rotateY(180deg);
+}
+
+.plv-card-back-band {
+    background: linear-gradient(120deg, #064a91, #0879c9);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    padding: 9px;
+    width: 100%;
+}
+
+.plv-card-back-content {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 16px;
+}
+
+.plv-card-back-monogram {
+    align-items: center;
+    background: #075ea9;
+    border: 3px solid #d4e7f8;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    font-size: 0.62rem;
+    font-weight: 800;
+    height: 38px;
+    justify-content: center;
+    margin-bottom: 7px;
+    width: 38px;
+}
+
+.plv-card-back-content h3 {
+    color: #064a91;
+    font-size: 0.64rem;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.plv-card-back-content p {
+    color: #30445f;
+    font-size: 0.52rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.plv-card-back-content small {
+    color: #55708d;
+    font-size: 0.45rem;
+    margin-top: 3px;
+}
+
+.plv-card-back-stripe {
+    background: linear-gradient(90deg, #063d78, #0992d0, #063d78);
+    height: 10px;
+    width: 100%;
 }
 
 .plv-card-header {
@@ -507,10 +601,10 @@ button {
     height: 13px;
 }
 
-.plv-drag-stage[data-reduced-motion="true"] .plv-drag-object {
+.plv-pendulum-stage[data-reduced-motion="true"] .plv-lanyard-handle,
+.plv-pendulum-stage[data-reduced-motion="true"] .plv-card-shell {
     cursor: default;
     touch-action: pan-y;
-    will-change: auto;
 }
 
 .hero-buttons,
@@ -684,12 +778,23 @@ button:focus-visible {
 @media (max-width: 850px) {
     .hero-content {
         grid-template-columns: 1fr;
+        padding-top: 350px;
     }
 
-    .plv-drag-stage {
-        height: 520px;
-        justify-self: center;
-        max-width: 560px;
+    .plv-pendulum-stage {
+        height: 470px;
+        right: 50%;
+        transform: translateX(50%);
+        width: min(440px, 100%);
+    }
+
+    .plv-pendulum-object {
+        width: min(330px, 100%);
+    }
+
+    .plv-card-shell {
+        height: 180px;
+        width: 210px;
     }
 
     .skills-grid,
@@ -736,40 +841,27 @@ button:focus-visible {
 
     .hero-content {
         gap: 25px;
+        padding-top: 280px;
     }
 
-    .hero-copy {
-        grid-row: 2;
+    .plv-pendulum-stage {
+        height: 345px;
+        right: 0;
+        transform: none;
+        width: 100%;
     }
 
-    .plv-drag-stage {
-        grid-row: 1;
-        height: 350px;
-        max-width: 340px;
+    .plv-pendulum-stage::before {
+        height: 290px;
+        width: 290px;
     }
 
-    .plv-drag-object {
-        width: min(230px, 100%);
+    .plv-pendulum-object {
+        width: min(300px, 100%);
     }
 
-    .plv-lanyard-image {
-        width: 125px;
-    }
-
-    .plv-card-connector {
-        height: 14px;
-        margin-bottom: -3px;
-        margin-top: -5px;
-        width: 21px;
-    }
-
-    .plv-card-connector::after {
-        height: 5px;
-        top: 3px;
-        width: 5px;
-    }
-
-    .plv-student-card {
+    .plv-card-shell {
+        height: 132px;
         width: 165px;
     }
 
@@ -825,6 +917,41 @@ button:focus-visible {
 
     .plv-card-barcode {
         height: 9px;
+    }
+
+    .plv-card-back-band {
+        font-size: 0.52rem;
+        padding: 6px;
+    }
+
+    .plv-card-back-content {
+        padding: 5px 10px;
+    }
+
+    .plv-card-back-monogram {
+        border-width: 2px;
+        font-size: 0.48rem;
+        height: 29px;
+        margin-bottom: 4px;
+        width: 29px;
+    }
+
+    .plv-card-back-content h3 {
+        font-size: 0.48rem;
+        margin-bottom: 2px;
+    }
+
+    .plv-card-back-content p {
+        font-size: 0.4rem;
+    }
+
+    .plv-card-back-content small {
+        font-size: 0.34rem;
+        margin-top: 1px;
+    }
+
+    .plv-card-back-stripe {
+        height: 7px;
     }
 
     .section {

@@ -134,57 +134,79 @@
                 </div>
 
                 <aside
-                    id="plv-drag-stage"
-                    class="plv-drag-stage"
-                    aria-label="Interactive PLV lanyard and student ID. Drag the lanyard or card to move them together."
+                    id="plv-pendulum-stage"
+                    class="plv-pendulum-stage"
+                    aria-label="Interactive hanging PLV lanyard and student ID. Drag the visible lanyard or card to swing it."
                 >
                     <div
-                        id="plv-drag-object"
-                        class="plv-drag-object"
-                        data-drag-object
+                        id="plv-pendulum-object"
+                        class="plv-pendulum-object"
                     >
-                        <img
-                            class="plv-lanyard-image"
-                            src="images/plv-lanyard-white-sway-transparent.gif"
-                            alt="Blue PLV lanyard with its original school markings, seal, and circular pin"
-                            draggable="false"
+                        <div
+                            id="plv-pendulum-slider"
+                            class="plv-pendulum-slider"
                         >
+                            <img
+                                class="plv-lanyard-image"
+                                src="images/plv-lanyard.png"
+                                alt="Blue PLV lanyard with its original school markings, seal, and circular pin"
+                                draggable="false"
+                            >
 
-                        <span class="plv-card-connector" aria-hidden="true"></span>
+                            <span class="plv-lanyard-handle" aria-hidden="true"></span>
 
-                        <article
-                            id="plv-student-card"
-                            class="plv-student-card"
-                            aria-label="PLV student identification card"
-                        >
-                            <header class="plv-card-header">
-                                <span class="plv-card-monogram" aria-hidden="true">PLV</span>
-                                <span>
-                                    <small>Pamantasan ng</small>
-                                    <strong>Lungsod ng Valenzuela</strong>
-                                </span>
-                            </header>
+                            <div class="plv-card-shell">
+                                <div id="plv-card-rotor" class="plv-card-rotor">
+                                    <article
+                                        id="plv-student-card"
+                                        class="plv-student-card plv-card-face plv-card-front"
+                                        aria-label="PLV student identification card"
+                                    >
+                                        <header class="plv-card-header">
+                                            <span class="plv-card-monogram" aria-hidden="true">PLV</span>
+                                            <span>
+                                                <small>Pamantasan ng</small>
+                                                <strong>Lungsod ng Valenzuela</strong>
+                                            </span>
+                                        </header>
 
-                            <div class="plv-card-body">
-                                <img
-                                    class="plv-card-photo"
-                                    src="images/IDPICTURE.jpg"
-                                    alt="Portrait of Janzen Dave O. Castellano"
-                                >
+                                        <div class="plv-card-body">
+                                            <img
+                                                class="plv-card-photo"
+                                                src="images/IDPICTURE.jpg"
+                                                alt="Portrait of Janzen Dave O. Castellano"
+                                            >
 
-                                <div class="plv-card-details">
-                                    <span>Student</span>
-                                    <h3>Janzen Dave O. Castellano</h3>
-                                    <p>Information Technology</p>
+                                            <div class="plv-card-details">
+                                                <span>Student</span>
+                                                <h3>Janzen Dave O. Castellano</h3>
+                                                <p>Information Technology</p>
+                                            </div>
+                                        </div>
+
+                                        <footer class="plv-card-footer" aria-hidden="true">
+                                            <strong>PLV</strong>
+                                            <span class="plv-card-barcode"></span>
+                                            <span>Student ID</span>
+                                        </footer>
+                                    </article>
+
+                                    <article
+                                        class="plv-student-card plv-card-face plv-card-back"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="plv-card-back-band">PLV</div>
+                                        <div class="plv-card-back-content">
+                                            <span class="plv-card-back-monogram">PLV</span>
+                                            <h3>Pamantasan ng Lungsod ng Valenzuela</h3>
+                                            <p>Student Identification Card</p>
+                                            <small>Valenzuela City</small>
+                                        </div>
+                                        <div class="plv-card-back-stripe" aria-hidden="true"></div>
+                                    </article>
                                 </div>
                             </div>
-
-                            <footer class="plv-card-footer" aria-hidden="true">
-                                <strong>PLV</strong>
-                                <span class="plv-card-barcode"></span>
-                                <span>Student ID</span>
-                            </footer>
-                        </article>
+                        </div>
                     </div>
                 </aside>
             </div>
