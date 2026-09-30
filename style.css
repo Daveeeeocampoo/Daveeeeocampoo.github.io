@@ -764,6 +764,31 @@ button:focus-visible {
     text-decoration: underline;
 }
 
+.project-card-with-demo {
+    position: relative;
+}
+
+.project-card-with-demo:focus-within {
+    border-color: var(--primary-color);
+}
+
+.project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+.project-demo-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.project-source-link {
+    position: relative;
+    z-index: 1;
+}
+
 .contact-content {
     text-align: center;
 }
