@@ -127,8 +127,8 @@ function initializePlvPendulum() {
     const maximumCompression = 8;
     const maximumAngularVelocity = 3.2;
     const maximumTwistVelocity = 6;
+    const maximumSpinVelocity = 12;
     const maximumTiltX = 0.58;
-    const maximumTiltY = 2.85;
     const state = {
         angle: 0,
         angularVelocity: 0,
@@ -171,6 +171,10 @@ function initializePlvPendulum() {
         return normalized;
     }
 
+    function nearestFaceAngle(angle) {
+        return Math.round(angle / Math.PI) * Math.PI;
+    }
+
     function getPointerPosition(event) {
         const bounds = stage.getBoundingClientRect();
 
@@ -185,7 +189,7 @@ function initializePlvPendulum() {
     }
 
     function render() {
-        pendulum.style.transform = `rotateZ(${state.angle}rad)`;
+        pendulum.style.transform = `rotateZ(${-state.angle}rad)`;
         pendulumSlider.style.transform =
             `translate3d(0, ${verticalSpring.extension}px, 0)`;
         cardRotor.style.transform =
@@ -211,7 +215,7 @@ function initializePlvPendulum() {
             Math.abs(state.angle) > 0.0005 ||
             Math.abs(state.angularVelocity) > 0.001 ||
             Math.abs(state.tiltX) > 0.001 ||
-            Math.abs(state.tiltY) > 0.001 ||
+            Math.abs(state.tiltY - nearestFaceAngle(state.tiltY)) > 0.001 ||
             Math.abs(state.tiltVelocityX) > 0.002 ||
             Math.abs(state.tiltVelocityY) > 0.002
         );
@@ -233,7 +237,7 @@ function initializePlvPendulum() {
         state.angle = 0;
         state.angularVelocity = 0;
         state.tiltX = 0;
-        state.tiltY = 0;
+        state.tiltY = nearestFaceAngle(state.tiltY);
         state.tiltVelocityX = 0;
         state.tiltVelocityY = 0;
         verticalSpring.extension = 0;
@@ -277,10 +281,6 @@ function initializePlvPendulum() {
             state.tiltVelocityX *= -0.2;
         }
 
-        if (Math.abs(state.tiltY) > maximumTiltY) {
-            state.tiltY = clamp(state.tiltY, -maximumTiltY, maximumTiltY);
-            state.tiltVelocityY *= -0.2;
-        }
     }
 
     function stepPendulum(deltaTime) {
@@ -364,29 +364,39 @@ function initializePlvPendulum() {
         constrainSwing();
 
         const targetTiltX = activeDrag ? activeDrag.targetTiltX : 0;
-        const targetTiltY = activeDrag ? activeDrag.targetTiltY : 0;
         const tiltSpring = activeDrag ? 22 : 8;
         const tiltDamping = activeDrag ? 7.2 : 3.5;
         const tiltAccelerationX =
             (targetTiltX - state.tiltX) * tiltSpring -
             state.tiltVelocityX * tiltDamping;
-        const tiltAccelerationY =
-            (targetTiltY - state.tiltY) * tiltSpring -
-            state.tiltVelocityY * tiltDamping;
 
         state.tiltVelocityX = clamp(
             state.tiltVelocityX + tiltAccelerationX * deltaTime,
             -maximumTwistVelocity,
             maximumTwistVelocity
         );
-        state.tiltVelocityY = clamp(
-            state.tiltVelocityY + tiltAccelerationY * deltaTime,
-            -maximumTwistVelocity,
-            maximumTwistVelocity
-        );
         state.tiltX += state.tiltVelocityX * deltaTime;
-        state.tiltY += state.tiltVelocityY * deltaTime;
         constrainTilt();
+
+        const spinCatch = clamp(
+            (1.5 - Math.abs(state.tiltVelocityY)) / 1.5,
+            0,
+            1
+        );
+        const spinAcceleration = activeDrag
+            ? (activeDrag.targetTiltY - state.tiltY) *
+                  (activeDrag.isCardGrab ? 90 : 32) -
+              state.tiltVelocityY * (activeDrag.isCardGrab ? 16 : 8)
+            : (nearestFaceAngle(state.tiltY) - state.tiltY) *
+                  12 * spinCatch -
+              state.tiltVelocityY * (0.65 + 3 * spinCatch);
+
+        state.tiltVelocityY = clamp(
+            state.tiltVelocityY + spinAcceleration * deltaTime,
+            -maximumSpinVelocity,
+            maximumSpinVelocity
+        );
+        state.tiltY += state.tiltVelocityY * deltaTime;
 
         if (activeDrag) {
             settledSteps = 0;
@@ -399,7 +409,7 @@ function initializePlvPendulum() {
             Math.abs(state.angle) < 0.001 &&
             Math.abs(state.angularVelocity) < 0.0025 &&
             Math.abs(state.tiltX) < 0.002 &&
-            Math.abs(state.tiltY) < 0.002 &&
+            Math.abs(state.tiltY - nearestFaceAngle(state.tiltY)) < 0.002 &&
             Math.abs(state.tiltVelocityX) < 0.006 &&
             Math.abs(state.tiltVelocityY) < 0.006
         ) {
@@ -519,6 +529,7 @@ function initializePlvPendulum() {
 
             if (!reducedMotion) {
                 state.angularVelocity = 0.4;
+                state.tiltVelocityY = 3.2;
             }
         } else if (reducedMotion) {
             stopAnimation();
@@ -566,11 +577,14 @@ function initializePlvPendulum() {
 
         activeDrag = {
             pointerId: event.pointerId,
+            isCardGrab: handle.classList.contains("plv-card-shell"),
             angleOffset: state.angle - pointerAngle,
             targetAngle: state.angle,
             targetExtension: verticalSpring.extension,
             targetTiltX: state.tiltX,
             targetTiltY: state.tiltY,
+            startTiltY: state.tiltY,
+            startX: pointer.x,
             startPointerRadius: pointerRadius,
             startExtension: verticalSpring.extension,
             lastX: pointer.x,
@@ -588,6 +602,11 @@ function initializePlvPendulum() {
                 verticalSpring.restLength + verticalSpring.maxExtension
             ),
         };
+
+        if (activeDrag.isCardGrab) {
+            state.tiltVelocityY = 0;
+        }
+
         pendulum.classList.add("is-dragging");
 
         try {
@@ -615,9 +634,10 @@ function initializePlvPendulum() {
             pointer.x - anchorX,
             pointer.y - anchorY
         );
-        const elapsedSeconds = Math.max(
+        const elapsedSeconds = clamp(
             (latestEvent.timeStamp - activeDrag.lastTime) / 1000,
-            0.001
+            0.001,
+            0.05
         );
         const velocityX =
             (pointer.x - activeDrag.lastX) / elapsedSeconds;
@@ -656,12 +676,29 @@ function initializePlvPendulum() {
             -maximumTiltX,
             maximumTiltX
         );
-        activeDrag.targetTiltY = clamp(
-            activeDrag.pointerVelocityX * 0.0032 +
-                (activeDrag.targetAngle - state.angle) * 4,
-            -maximumTiltY,
-            maximumTiltY
-        );
+        if (activeDrag.isCardGrab) {
+            activeDrag.targetTiltY +=
+                (pointer.x - activeDrag.lastX) * Math.PI /
+                cardShell.offsetWidth;
+        } else {
+            const availablePull = Math.max(
+                1,
+                verticalSpring.maxExtension - activeDrag.startExtension
+            );
+            const pullFraction = clamp(
+                (activeDrag.targetExtension - activeDrag.startExtension) /
+                    availablePull,
+                0,
+                1
+            );
+
+            const spinDirection =
+                pointer.x < activeDrag.startX - 10 ? -1 : 1;
+
+            activeDrag.targetTiltY =
+                activeDrag.startTiltY +
+                spinDirection * pullFraction * Math.PI;
+        }
         activeDrag.lastX = pointer.x;
         activeDrag.lastY = pointer.y;
         activeDrag.lastPointerAngle = pointerAngle;
@@ -704,12 +741,39 @@ function initializePlvPendulum() {
                 -maximumTwistVelocity,
                 maximumTwistVelocity
             );
-            state.tiltVelocityY = clamp(
-                state.tiltVelocityY +
-                    activeDrag.pointerVelocityX * 0.0024,
-                -maximumTwistVelocity,
-                maximumTwistVelocity
-            );
+            if (activeDrag.isCardGrab) {
+                const movementAge = Math.max(
+                    0,
+                    event.timeStamp - activeDrag.lastTime
+                );
+                const recentMotion = clamp(1 - movementAge / 130, 0, 1);
+
+                state.tiltVelocityY = clamp(
+                    activeDrag.pointerVelocityX * Math.PI /
+                        cardShell.offsetWidth * recentMotion,
+                    -maximumSpinVelocity,
+                    maximumSpinVelocity
+                );
+            } else {
+                const availablePull = Math.max(
+                    1,
+                    verticalSpring.maxExtension - activeDrag.startExtension
+                );
+                const pullFraction = clamp(
+                    (activeDrag.targetExtension - activeDrag.startExtension) /
+                        availablePull,
+                    0,
+                    1
+                );
+                const spinDirection =
+                    activeDrag.lastX < activeDrag.startX - 10 ? -1 : 1;
+
+                state.tiltVelocityY = clamp(
+                    state.tiltVelocityY + spinDirection * pullFraction * 7,
+                    -maximumSpinVelocity,
+                    maximumSpinVelocity
+                );
+            }
         }
 
         activeDrag = null;
